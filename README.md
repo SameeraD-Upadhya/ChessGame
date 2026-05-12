@@ -1,74 +1,82 @@
-# React + TypeScript + Vite
+# ♟️ ChessGame
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern web-based Chess game built using **React + TypeScript + Vite** featuring smooth gameplay, responsive UI, and multiplayer-ready architecture.
 
-Currently, two official plugins are available:
+## 🚀 Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- ♟️ Interactive chess board
+- 👥 Local multiplayer gameplay
+- 📜 Move history tracking
+- 🔄 Restart / reset game
+- 🎨 Responsive modern UI
+- ⚡ Fast performance with Vite
+- 🤖 AI opponent *(planned)*
+- 🌐 Online multiplayer *(planned)*
+- 📊 Match analysis *(planned)*
 
-## React Compiler
+---
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## 🛠️ Tech Stack
 
-## Expanding the ESLint configuration
+### Frontend
+- React
+- TypeScript
+- Vite
+- Tailwind CSS
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+### Game Logic
+- Chess.js
+- React Chessboard
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+### Backend *(planned)*
+- Node.js
+- Express
+- Socket.IO
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+---
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+## 📦 Installation
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+```bash
+git clone https://github.com/SameeraD-Upadhya/ChessGame.git
+cd ChessGame
+npm install
+npm run dev
+📂 Project Structure
+ChessGame/
+│
+├── public/
+├── src/
+│   ├── components/
+│   ├── pages/
+│   ├── assets/
+│   ├── App.tsx
+│   └── main.tsx
+│
+├── package.json
+├── vite.config.ts
+└── README.md
+🎯 Future Improvements
+Online matchmaking
+Ranked mode
+Spectator mode
+Replay system
+Chess timer
+AI difficulty levels
+Player authentication
+Mobile optimization
+🤝 Contributing
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+Contributions are welcome.
+Fork the repository and submit a pull request.
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
-# ChessGame
+📄 License
+
+This project is licensed under the MIT License.
+
+👨‍💻 Developer
+
+Made by Sameera D Upadhya
+
+GitHub:
+https://github.com/SameeraD-Upadhya
