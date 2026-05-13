@@ -36,7 +36,6 @@ export const ChessPiece: React.FC<Props> = ({ type, color, isDragging }) => {
 
   return (
     <motion.div
-      layoutId={`${color}-${type}`}
       initial={{ scale: 0.5, opacity: 0 }}
       animate={{ scale: 1, opacity: 1 }}
       transition={{ type: 'spring', stiffness: 300, damping: 20 }}

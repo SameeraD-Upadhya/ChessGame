@@ -5,9 +5,11 @@ import { Square } from './Square';
 import type { Square as ChessSquare } from 'chess.js';
 import { PromotionModal } from './PromotionModal';
 import { useSettingsStore } from '../store/settingsStore';
+import { useMainStore } from '../store/mainStore';
 
 export const ChessBoard: React.FC = () => {
-  const { game, fen, lastMove, isCheck, makeMove } = useGameStore();
+  const { game, fen, lastMove, isCheck, makeMove, suggestedMove } = useGameStore();
+  const { playerSide } = useMainStore();
   const themeType = useThemeStore((state) => state.theme);
   const theme = THEMES[themeType];
   const { autoPromoteToQueen } = useSettingsStore();
@@ -104,17 +106,19 @@ export const ChessBoard: React.FC = () => {
 
   const renderBoard = () => {
     const board = [];
-    const files = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
-    const ranks = ['8', '7', '6', '5', '4', '3', '2', '1'];
+    const files = playerSide === 'b' ? ['h', 'g', 'f', 'e', 'd', 'c', 'b', 'a'] : ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
+    const ranks = playerSide === 'b' ? ['1', '2', '3', '4', '5', '6', '7', '8'] : ['8', '7', '6', '5', '4', '3', '2', '1'];
 
     for (const rank of ranks) {
       for (const file of files) {
         const square = `${file}${rank}`;
         const piece = game.get(square as ChessSquare);
-        const isLight = (files.indexOf(file) + ranks.indexOf(rank)) % 2 === 0;
+        const isLight = (files.indexOf(file) + ranks.indexOf(rank)) % 2 === (playerSide === 'b' ? 1 : 0);
 
         const isLastMove = lastMove ? (lastMove.from === square || lastMove.to === square) : false;
         const isCheckSquare = isCheck && piece?.type === 'k' && piece?.color === game.turn();
+        
+        const isSuggested = suggestedMove ? (suggestedMove.from === square || suggestedMove.to === square) : false;
 
         board.push(
           <Square
@@ -127,6 +131,8 @@ export const ChessBoard: React.FC = () => {
             isPossibleMove={possibleMoves.includes(square)}
             isSelected={selectedSquare === square}
             isFocused={kbSquare === square}
+            isSuggested={isSuggested}
+            suggestionExplanation={isSuggested && suggestedMove?.to === square ? suggestedMove.explanation : undefined}
             onClick={() => {
               setKbSquare(square);
               onSquareClick(square);

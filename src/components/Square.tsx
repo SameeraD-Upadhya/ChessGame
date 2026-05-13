@@ -12,6 +12,8 @@ interface Props {
   isPossibleMove: boolean;
   isSelected: boolean;
   isFocused: boolean;
+  isSuggested: boolean;
+  suggestionExplanation?: string;
   onClick: () => void;
   theme: { light: string; dark: string };
 }
@@ -25,6 +27,8 @@ export const Square: React.FC<Props> = ({
   isPossibleMove,
   isSelected,
   isFocused,
+  isSuggested,
+  suggestionExplanation,
   onClick,
   theme
 }) => {
@@ -42,6 +46,11 @@ export const Square: React.FC<Props> = ({
         <div className="absolute inset-0 bg-yellow-400/30" />
       )}
 
+      {/* Suggested Move Highlight */}
+      {isSuggested && (
+        <div className="absolute inset-0 bg-emerald-400/40 animate-pulse border-2 border-emerald-400 border-inset" />
+      )}
+
       {/* Selected Highlight */}
       {isSelected && (
         <div className="absolute inset-0 bg-cyan-400/40 ring-2 ring-cyan-400 ring-inset" />
@@ -55,6 +64,15 @@ export const Square: React.FC<Props> = ({
       {/* Check Highlight */}
       {isCheck && (
         <div className="absolute inset-0 bg-red-500/50 shadow-[inset_0_0_20px_rgba(239,68,68,0.8)]" />
+      )}
+
+      {/* Suggestion Tooltip */}
+      {suggestionExplanation && (
+        <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-3 py-1.5 bg-zinc-900/95 backdrop-blur-sm text-white text-[10px] font-bold rounded-lg shadow-2xl whitespace-nowrap z-50 pointer-events-none border border-emerald-500/30 opacity-0 group-hover:opacity-100 transition-all transform group-hover:-translate-y-1 flex items-center gap-2">
+          <div className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+          {suggestionExplanation}
+          <div className="absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-zinc-900" />
+        </div>
       )}
 
       {/* Piece */}

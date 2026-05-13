@@ -5,7 +5,7 @@ import { GameControls } from './components/GameControls';
 import { MoveHistory } from './components/MoveHistory';
 import { useGameStore } from './store/gameStore';
 import { useThemeStore, THEMES } from './store/themeStore';
-import { findBestMove, evaluateBoard } from './lib/ai';
+import { getDifficultyAdjustedMove, evaluateBoard } from './lib/ai';
 import { Trophy, Sword, User, Settings, Info, BarChart3, Home, ShieldCheck } from 'lucide-react';
 import confetti from 'canvas-confetti';
 
@@ -20,32 +20,33 @@ import { useSettingsStore } from './store/settingsStore';
 import { PIECE_IMAGES } from './store/pieceStore';
 
 function App() {
-  const { game, turn, isCheckmate, isDraw, makeMove, capturedPieces, resetGame } = useGameStore();
+  const { game, turn, fen, isCheckmate, isDraw, makeMove, capturedPieces, resetGame } = useGameStore();
   const themeType = useThemeStore((state) => state.theme);
   const theme = THEMES[themeType];
-  const { view, setView, gameMode } = useMainStore();
+  const { view, setView, gameMode, playerSide, setPlayerSide } = useMainStore();
   const [isAiThinking, setIsAiThinking] = useState(false);
   const [evaluation, setEvaluation] = useState(0);
   const recordGame = useStatsStore((state) => state.recordGame);
   const [gameRecorded, setGameRecorded] = useState(false);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   
-  const { animationsEnabled } = useSettingsStore();
+  const { animationsEnabled, difficulty } = useSettingsStore();
 
   // Trigger game events (sounds, etc.)
   useGameEvents();
 
-  // Update evaluation whenever game changes
   useEffect(() => {
     setEvaluation(evaluateBoard(game));
-  }, [game, turn]);
+  }, [game, fen]);
 
-  // AI Logic: If it's Black's turn, make an AI move
+  // AI Logic: If it's the AI's turn, make an AI move
   useEffect(() => {
-    if (turn === 'b' && !isCheckmate && !isDraw && view === 'game' && gameMode === 'ai') {
+    const aiColor = playerSide === 'w' ? 'b' : 'w';
+    
+    if (turn === aiColor && !isCheckmate && !isDraw && view === 'game' && gameMode === 'ai') {
       setIsAiThinking(true);
       const timer = setTimeout(() => {
-        const bestMove = findBestMove(game, 3);
+        const bestMove = getDifficultyAdjustedMove(game, difficulty);
         if (bestMove) {
           makeMove(bestMove);
         }
@@ -53,7 +54,7 @@ function App() {
       }, 600);
       return () => clearTimeout(timer);
     }
-  }, [turn, isCheckmate, isDraw, view, gameMode]);
+  }, [turn, isCheckmate, isDraw, view, gameMode, playerSide, difficulty]);
 
   // Victory Effects & Stat Recording
   useEffect(() => {

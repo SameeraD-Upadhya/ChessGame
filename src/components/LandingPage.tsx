@@ -2,13 +2,20 @@ import React from 'react';
 import { useMainStore } from '../store/mainStore';
 import { motion } from 'framer-motion';
 import { Sword, Users, Trophy, Play, Settings, BarChart3, ShieldCheck } from 'lucide-react';
+import { useGameStore } from '../store/gameStore';
 
 export const LandingPage: React.FC = () => {
   const { setView, setGameMode } = useMainStore();
 
   const handleStartGame = (mode: 'ai' | 'pvp' | 'analysis') => {
+    const { resetGame } = useGameStore.getState();
     setGameMode(mode);
-    setView('game');
+    if (mode === 'analysis') {
+      resetGame();
+      setView('game');
+    } else {
+      setView('setup');
+    }
   };
 
   return (
