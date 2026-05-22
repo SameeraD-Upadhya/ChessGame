@@ -5,14 +5,18 @@ export type ThemeType = 'cyberpunk' | 'royal' | 'minimal' | 'cosmic' | 'emerald'
 
 interface ThemeState {
   theme: ThemeType;
+  mode: 'dark' | 'light';
   setTheme: (theme: ThemeType) => void;
+  setMode: (mode: 'dark' | 'light') => void;
 }
 
 export const useThemeStore = create<ThemeState>()(
   persist(
     (set) => ({
       theme: 'cyberpunk',
+      mode: 'dark',
       setTheme: (theme) => set({ theme }),
+      setMode: (mode) => set({ mode }),
     }),
     {
       name: 'chess-theme-storage',

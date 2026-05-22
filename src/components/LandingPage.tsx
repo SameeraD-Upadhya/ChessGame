@@ -10,11 +10,12 @@ export const LandingPage: React.FC = () => {
   const handleStartGame = (mode: 'ai' | 'pvp' | 'analysis') => {
     const { resetGame } = useGameStore.getState();
     setGameMode(mode);
-    if (mode === 'analysis') {
-      resetGame();
-      setView('game');
-    } else {
+    resetGame();
+    
+    if (mode === 'ai') {
       setView('setup');
+    } else {
+      setView('game');
     }
   };
 

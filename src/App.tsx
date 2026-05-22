@@ -69,7 +69,7 @@ function App() {
       }
 
       const result = isCheckmate ? (turn === 'w' ? 'loss' : 'win') : 'draw';
-      recordGame(result, "Antigravity AI", gameMode, game.history().length);
+      recordGame(result, "Pro AI", gameMode, game.history().length);
       setGameRecorded(true);
     }
     
@@ -87,7 +87,7 @@ function App() {
             <Sword className="text-white" size={20} />
           </div>
           <h1 className="text-xl font-black tracking-tighter bg-gradient-to-r from-white to-zinc-500 bg-clip-text text-transparent">
-            ANTIGRAVITY <span className="text-zinc-500 font-light">CHESS</span>
+            CHESS <span className="text-zinc-500 font-light">PRO</span>
           </h1>
         </div>
         
@@ -100,9 +100,13 @@ function App() {
           </button>
           <button 
             onClick={() => {
-               if (view !== 'game') setView('game');
+              if (gameMode === 'ai' && view === 'home') {
+                setView('setup');
+              } else {
+                setView('game');
+              }
             }} 
-            className={`text-sm font-bold uppercase tracking-widest transition-all hover:scale-105 ${view === 'game' ? 'text-cyan-400' : 'text-zinc-500 hover:text-white'}`}
+            className={`text-sm font-bold uppercase tracking-widest transition-all hover:scale-105 ${view === 'game' || view === 'setup' ? 'text-cyan-400' : 'text-zinc-500 hover:text-white'}`}
           >
             Play
           </button>
@@ -193,7 +197,7 @@ function App() {
                     <div className="flex justify-between items-end">
                       <span className="text-xs text-zinc-500 uppercase">Opponent</span>
                       <span className="text-sm font-bold text-fuchsia-500">
-                        {gameMode === 'ai' ? 'Antigravity AI' : 'Local Player'}
+                        {gameMode === 'ai' ? 'Pro AI' : 'Local Player'}
                       </span>
                     </div>
                     <div className="flex justify-between items-end">
@@ -274,7 +278,7 @@ function App() {
         </div>
         <div className="flex gap-6">
           <span>v1.0.4-stable</span>
-          <span>© 2026 ANTIGRAVITY ENGINE</span>
+          <span>© 2026 CHESS PRO ENGINE</span>
         </div>
       </footer>
 

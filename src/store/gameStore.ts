@@ -97,6 +97,7 @@ export const useGameStore = create<GameState>()(
           history: game.history(),
           lastMove: null,
           capturedPieces: updateCapturedPieces(game),
+          suggestedMove: null,
         });
       },
 
@@ -113,6 +114,7 @@ export const useGameStore = create<GameState>()(
           history: game.history(),
           lastMove: null,
           capturedPieces: updateCapturedPieces(game),
+          suggestedMove: null,
         });
       },
 
@@ -134,6 +136,7 @@ export const useGameStore = create<GameState>()(
           isDraw: newGame.isDraw(),
           lastMove: newGame.history({ verbose: true }).pop() || null,
           capturedPieces: updateCapturedPieces(newGame),
+          suggestedMove: null,
         });
       },
 
