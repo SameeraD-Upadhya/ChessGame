@@ -1,6 +1,5 @@
 import React from 'react';
 import { usePieceStore, PIECE_IMAGES } from '../store/pieceStore';
-import type { PieceStyle } from '../store/pieceStore';
 import { motion } from 'framer-motion';
 
 interface Props {
@@ -11,27 +10,24 @@ interface Props {
 
 
 export const ChessPiece: React.FC<Props> = ({ type, color, isDragging }) => {
-  const style = usePieceStore((state) => state.style);
+  const pawnTexture = usePieceStore((state) => state.pawnTexture);
   const pieceKey = `${color}${type}`;
   const src = PIECE_IMAGES[pieceKey];
 
   const getStyleClasses = () => {
-    switch (style) {
-      case 'neon':
-        return color === 'w' 
-          ? 'drop-shadow-[0_0_8px_rgba(34,211,238,0.8)] brightness-125' 
-          : 'drop-shadow-[0_0_8px_rgba(217,70,239,0.8)] brightness-125 filter hue-rotate-[280deg]';
-      case 'cyberpunk':
-        return 'contrast-150 saturate-200 brightness-110 drop-shadow-[2px_2px_0_rgba(0,255,255,0.5)]';
-      case 'marble':
-        return 'sepia-[0.3] contrast-90 brightness-105 drop-shadow-lg';
-      case 'minimal':
-        return 'grayscale brightness-110 contrast-125';
-      case 'pixel':
-        return 'pixelated scale-90';
-      default:
-        return 'drop-shadow-md';
+    if (type === 'p') {
+      switch (pawnTexture) {
+        case 'textured1':
+          return 'sepia-[0.5] hue-rotate-15 contrast-125 drop-shadow-lg';
+        case 'textured2':
+          return 'saturate-[0.2] brightness-75 drop-shadow-[2px_2px_0_rgba(0,0,0,0.5)]';
+        case 'textured3':
+          return 'hue-rotate-180 brightness-110 contrast-150 drop-shadow-md';
+        default:
+          return 'drop-shadow-md';
+      }
     }
+    return 'drop-shadow-md';
   };
 
   return (

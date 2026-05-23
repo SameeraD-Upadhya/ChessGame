@@ -2,18 +2,18 @@ import React from 'react';
 import { useGameStore } from '../store/gameStore';
 import { useThemeStore, THEMES } from '../store/themeStore';
 import type { ThemeType } from '../store/themeStore';
-import { RotateCcw, Undo2, Palette, Trophy, Brain, Lightbulb, Zap, Shield } from 'lucide-react';
+import { RotateCcw, Undo2, Palette, Brain, Lightbulb, Zap } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { getSuggestedMove } from '../lib/ai';
 import { usePieceStore } from '../store/pieceStore';
-import type { PieceStyle } from '../store/pieceStore';
+import type { PawnTexture } from '../store/pieceStore';
 import { Box } from 'lucide-react';
 import { useSettingsStore } from '../store/settingsStore';
 
 export const GameControls: React.FC = () => {
   const { game, resetGame, undoMove, turn, isCheckmate, setSuggestedMove, suggestedMove } = useGameStore();
   const { theme: currentTheme, setTheme } = useThemeStore();
-  const { style: currentPieceStyle, setStyle: setPieceStyle } = usePieceStore();
+  const { pawnTexture, setPawnTexture } = usePieceStore();
   const { difficulty, setDifficulty } = useSettingsStore();
 
   const handleGetHint = () => {
@@ -139,12 +139,12 @@ export const GameControls: React.FC = () => {
           <Box size={14} /> Pieces
         </h3>
         <div className="flex flex-wrap gap-2">
-          {(['classic', 'neon', 'cyberpunk', 'marble', 'minimal'] as PieceStyle[]).map((s) => (
+          {(['classic', 'textured1', 'textured2', 'textured3'] as PawnTexture[]).map((s) => (
             <button
               key={s}
-              onClick={() => setPieceStyle(s)}
+              onClick={() => setPawnTexture(s)}
               className={`px-3 py-1.5 rounded-lg text-[10px] font-bold uppercase transition-all border ${
-                currentPieceStyle === s 
+                pawnTexture === s 
                 ? 'bg-white/10 border-white/20 text-white' 
                 : 'bg-zinc-800/50 border-white/5 text-zinc-500 hover:text-zinc-300'
               }`}

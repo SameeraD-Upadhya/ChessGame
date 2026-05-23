@@ -1,4 +1,4 @@
-import { Chess, Move } from 'chess.js';
+import { Chess } from 'chess.js';
 
 // Piece Values
 const PIECE_VALUES: Record<string, number> = {
@@ -122,7 +122,7 @@ export const evaluateBoard = (game: Chess): number => {
 };
 
 // Simple move ordering to improve Alpha-Beta pruning performance
-const orderMoves = (game: Chess, moves: string[]): string[] => {
+const orderMoves = (moves: string[]): string[] => {
     return moves.sort((a, b) => {
         // Prioritize captures (look for 'x')
         const aIsCapture = a.includes('x');
@@ -149,7 +149,7 @@ export const minimax = (
 ): number => {
     if (depth === 0) return evaluateBoard(game);
 
-    const moves = orderMoves(game, game.moves());
+    const moves = orderMoves(game.moves());
     
     if (moves.length === 0) {
         if (game.isCheckmate()) {
@@ -184,7 +184,7 @@ export const minimax = (
 };
 
 export const findBestMove = (game: Chess, depth: number, randomness = 0): string | null => {
-    const moves = orderMoves(game, game.moves());
+    const moves = orderMoves(game.moves());
     if (moves.length === 0) return null;
 
     const isWhite = game.turn() === 'w';
@@ -224,7 +224,7 @@ export const getSuggestedMove = (game: Chess, difficulty: 'easy' | 'medium' | 'h
     if (rawMoves.length === 0) return null;
 
     // Use ordering for better evaluation
-    const orderedMoves = orderMoves(game, rawMoves.map(m => m.san));
+    const orderedMoves = orderMoves(rawMoves.map(m => m.san));
     const moves = orderedMoves.map(san => rawMoves.find(rm => rm.san === san)!);
 
     const depth = difficulty === 'easy' ? 2 : (difficulty === 'medium' ? 3 : 3);

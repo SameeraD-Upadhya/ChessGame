@@ -1,20 +1,18 @@
 import React, { useState } from 'react';
 import { useMainStore } from '../store/mainStore';
-import { useThemeStore, THEMES } from '../store/themeStore';
 import { useGameStore } from '../store/gameStore';
 import { useSettingsStore } from '../store/settingsStore';
-import { Sword, Users, Brain, Shield, ChevronRight, ArrowLeft, Dices, Zap, Target, Trophy } from 'lucide-react';
+import { Users, Brain, Shield, ChevronRight, ArrowLeft, Dices, Zap, Target, Trophy, Lightbulb } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 export const SetupScreen: React.FC = () => {
-  const { view, setView, gameMode, setGameMode, setPlayerSide } = useMainStore();
+  const { setView, gameMode, setGameMode, setPlayerSide } = useMainStore();
   const { difficulty, setDifficulty } = useSettingsStore();
-  const theme = THEMES[useThemeStore().theme];
-  const [step, setStep] = useState<'mode' | 'side'>(gameMode === 'ai' ? 'side' : 'mode');
+  const [step, setStep] = useState<'mode' | 'side'>(gameMode === 'ai' || gameMode === 'tutor' ? 'side' : 'mode');
 
   // Ensure side step if coming from landing page with AI selected
   React.useEffect(() => {
-    if (gameMode === 'ai') {
+    if (gameMode === 'ai' || gameMode === 'tutor') {
       setStep('side');
     }
   }, [gameMode]);
@@ -22,6 +20,7 @@ export const SetupScreen: React.FC = () => {
   const modes = [
     { id: 'ai', name: 'Player vs AI', icon: Brain, desc: 'Challenge our advanced engine', color: 'from-cyan-500 to-blue-500' },
     { id: 'pvp', name: 'Local PvP', icon: Users, desc: 'Play against a friend locally', color: 'from-fuchsia-500 to-purple-500' },
+    { id: 'tutor', name: 'Tutor Mode', icon: Lightbulb, desc: 'Learn to play with feedback', color: 'from-yellow-400 to-orange-500' },
     { id: 'analysis', name: 'Analysis Mode', icon: Shield, desc: 'Free board for study', color: 'from-emerald-500 to-teal-500' },
   ];
 
@@ -39,7 +38,7 @@ export const SetupScreen: React.FC = () => {
 
   const handleModeSelect = (modeId: string) => {
     setGameMode(modeId as any);
-    if (modeId === 'ai') {
+    if (modeId === 'ai' || modeId === 'tutor') {
       setStep('side');
     } else {
       setView('game');

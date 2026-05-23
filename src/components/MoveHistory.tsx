@@ -1,6 +1,5 @@
 import React from 'react';
 import { useGameStore } from '../store/gameStore';
-import { motion, AnimatePresence } from 'framer-motion';
 import { ScrollText, ChevronRight, History } from 'lucide-react';
 
 export const MoveHistory: React.FC = () => {

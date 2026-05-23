@@ -124,7 +124,7 @@ export const ChessBoard: React.FC = () => {
           <Square
             key={square}
             square={square}
-            piece={piece}
+            piece={piece || null}
             isLight={isLight}
             isLastMove={isLastMove}
             isCheck={isCheckSquare}

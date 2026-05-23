@@ -7,12 +7,12 @@ import { useGameStore } from '../store/gameStore';
 export const LandingPage: React.FC = () => {
   const { setView, setGameMode } = useMainStore();
 
-  const handleStartGame = (mode: 'ai' | 'pvp' | 'analysis') => {
+  const handleStartGame = (mode: 'ai' | 'pvp' | 'analysis' | 'tutor') => {
     const { resetGame } = useGameStore.getState();
     setGameMode(mode);
     resetGame();
     
-    if (mode === 'ai') {
+    if (mode === 'ai' || mode === 'tutor') {
       setView('setup');
     } else {
       setView('game');
@@ -20,7 +20,7 @@ export const LandingPage: React.FC = () => {
   };
 
   return (
-    <div className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden">
+    <div className="relative min-h-[100dvh] flex flex-col items-center justify-center overflow-y-auto overflow-x-hidden py-12">
       {/* Background Decorative Elements */}
       <div className="absolute top-0 left-0 w-full h-full pointer-events-none">
         <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-cyan-500/10 rounded-full blur-[120px] animate-pulse" />
@@ -61,9 +61,9 @@ export const LandingPage: React.FC = () => {
           />
           <MenuCard 
             icon={<BarChart3 size={24} />}
-            title="Analysis"
-            description="Study positions and review your moves"
-            onClick={() => handleStartGame('analysis')}
+            title="Tutor Mode"
+            description="Learn to play with real-time feedback and hints"
+            onClick={() => handleStartGame('tutor')}
           />
         </div>
 

@@ -16,18 +16,19 @@ export const PIECE_IMAGES: Record<string, string> = {
   'bk': 'https://upload.wikimedia.org/wikipedia/commons/f/f0/Chess_kdt45.svg',
 };
 
-export type PieceStyle = 'classic' | 'fantasy' | 'cyberpunk' | 'marble' | 'neon' | 'minimal' | 'pixel';
+// Instead of piece style, we just have pawn textures
+export type PawnTexture = 'classic' | 'textured1' | 'textured2' | 'textured3';
 
 interface PieceState {
-  style: PieceStyle;
-  setStyle: (style: PieceStyle) => void;
+  pawnTexture: PawnTexture;
+  setPawnTexture: (texture: PawnTexture) => void;
 }
 
 export const usePieceStore = create<PieceState>()(
   persist(
     (set) => ({
-      style: 'classic',
-      setStyle: (style) => set({ style }),
+      pawnTexture: 'classic',
+      setPawnTexture: (texture) => set({ pawnTexture: texture }),
     }),
     {
       name: 'chess-piece-storage',
